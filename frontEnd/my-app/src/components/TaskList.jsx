@@ -22,7 +22,7 @@ import {
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 
-const TaskList = ({ tasks, loading, onEdit, onDelete }) => {
+const TaskList = ({ tasks = [], loading, onEdit, onDelete }) => {
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), 'MMM dd, yyyy');
@@ -53,6 +53,9 @@ const TaskList = ({ tasks, loading, onEdit, onDelete }) => {
     }
   };
 
+  // Ensure tasks is always an array
+  const taskList = Array.isArray(tasks) ? tasks : [];
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" p={4}>
@@ -61,7 +64,7 @@ const TaskList = ({ tasks, loading, onEdit, onDelete }) => {
     );
   }
 
-  if (tasks.length === 0) {
+  if (taskList.length === 0) {
     return (
       <Box textAlign="center" py={4}>
         <Typography variant="h6" color="textSecondary">
@@ -87,7 +90,7 @@ const TaskList = ({ tasks, loading, onEdit, onDelete }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tasks.map((task) => (
+          {taskList.map((task) => (
             <TableRow 
               key={task.id}
               sx={{
